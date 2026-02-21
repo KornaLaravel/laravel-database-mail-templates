@@ -2,6 +2,7 @@
 
 namespace Spatie\MailTemplates\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Spatie\MailTemplates\Exceptions\CannotRenderTemplateMailable;
 use Spatie\MailTemplates\Exceptions\MissingMailTemplate;
 use Spatie\MailTemplates\Models\MailTemplate;
@@ -11,7 +12,7 @@ use Spatie\MailTemplates\Tests\stubs\Mails\LayoutMail;
 
 class TemplateMailableTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_render_a_mailable()
     {
         MailTemplate::create([
@@ -24,7 +25,7 @@ class TemplateMailableTest extends TestCase
         $this->assertEquals('Hello, John', $renderedMail);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_the_available_template_variables_for_a_mailable()
     {
         $variables = BasicMail::getVariables();
@@ -32,7 +33,7 @@ class TemplateMailableTest extends TestCase
         $this->assertEquals(['name', 'email'], $variables);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_render_a_mailable_with_a_layout()
     {
         $this->createMailTemplateForMailable(LayoutMail::class);
@@ -42,7 +43,7 @@ class TemplateMailableTest extends TestCase
         $this->assertEquals('<main>Hello, John</main>', $renderedMail);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_the_layout_does_not_contain_a_body_tag()
     {
         $this->expectException(CannotRenderTemplateMailable::class);
@@ -52,7 +53,7 @@ class TemplateMailableTest extends TestCase
         (new BadLayoutMail('John'))->render();
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_no_mail_template_exists_for_mailable()
     {
         $this->expectException(MissingMailTemplate::class);
@@ -60,7 +61,7 @@ class TemplateMailableTest extends TestCase
         (new BasicMail('John'))->render();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_additional_data()
     {
         MailTemplate::create([
